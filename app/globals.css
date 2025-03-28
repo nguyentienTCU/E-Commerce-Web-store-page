@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+html,
+body,
+:root{
+  height: 100%;
+}
+
+/* custom class */
+/* Custom Font Sizes */
+.heading1-bold {
+  font-size: 50px;
+  line-height: 100%;
+  font-weight: 700;
+}
+
+.heading2-bold {
+  font-size: 30px;
+  line-height: 100%;
+  font-weight: 700;
+}
+
+.heading3-bold {
+  font-size: 24px;
+  line-height: 100%;
+  font-weight: 700;
+}
+
+.heading4-bold {
+  font-size: 20px;
+  line-height: 100%;
+  font-weight: 700;
+}
+
+.body-bold {
+  font-size: 18px;
+  line-height: 100%;
+  font-weight: 700;
+}
+
+.body-semibold {
+  font-size: 18px;
+  line-height: 100%;
+  font-weight: 600;
+}
+
+.body-medium {
+  font-size: 18px;
+  line-height: 100%;
+  font-weight: 500;
+}
+
+.base-bold {
+  font-size: 16px;
+  line-height: 100%;
+  font-weight: 600;
+}
+
+.base-medium {
+  font-size: 16px;
+  line-height: 100%;
+  font-weight: 500;
+}
+
+.small-bold {
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 700;
+}
+
+.small-medium {
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 500;
+}
+
+/* Custom Colors */
+.red-1 {
+  color: #FF0000;
+}
+
+.grey-1 {
+  color: #F7F7F7;
+}
+
+.grey-2 {
+  color: #8A8A8A;
+}
+
+/* Hide Scrollbar (tailwind-scrollbar-hide equivalent) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
