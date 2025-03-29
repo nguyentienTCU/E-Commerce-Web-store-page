@@ -3,7 +3,7 @@ import { connectToDB } from "@/lib/mongoDB";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (req: NextRequest) => {
+export const GET = async (req: NextRequest) => {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -11,19 +11,11 @@ export const POST = async (req: NextRequest) => {
     }
 
     await connectToDB();
-    const user = await User.findOne({ clerkId: userId });
+    let user = await User.findOne({ clerkId: userId });
     if (!user) {
-      return new NextResponse("User not found", { status: 404 });
-    }
-    const { productId } = await req.json();
-    const isLiked = user.wishlist.includes(productId);
-    if (isLiked) {
-      user.wishlist = user.wishlist.filter((id: string) => id !== productId);
-    } else {
-      user.wishlist.push(productId);
+      user = await User.create({ clerkId: userId });
     }
 
-    await user.save();
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.log("[users_GET]", error);

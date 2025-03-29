@@ -1,7 +1,6 @@
-import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import HeartFavorite from "./Heart";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   return (
@@ -22,9 +21,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
       </div>
       <div className="flex justify-between items-center">
         <p className="body-bold">${product.price}</p>
-        <button>
-          <Heart />
-        </button>
+        <HeartFavorite productInfo={product} />
       </div>
     </Link>
   );

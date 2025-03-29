@@ -9,3 +9,11 @@ export const getProducts = async () => {
   const data = await res.json();
   return data;
 };
+
+export const getProductDetails = async (productId: string) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`
+  );
+  const data = await res.json();
+  return data;
+};

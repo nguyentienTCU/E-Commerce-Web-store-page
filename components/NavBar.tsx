@@ -11,7 +11,7 @@ const NavBar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
 
   return (
-    <div className="sticky top-0 z-10 py-2 px-10 flex justify-between items-center bg-white">
+    <div className="sticky top-0 z-10 py-1 px-5 flex justify-between items-center bg-white">
       <Link href="/">
         <Image src="/logo.png" alt="logo" width={130} height={100} />
       </Link>

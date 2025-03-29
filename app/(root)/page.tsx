@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <>
+    <div className="min-h-screen">
       <Image
         src="/banner.png"
         alt="banner"
@@ -14,6 +14,6 @@ export default function Home() {
       />
       <Collections />
       <ProductList />
-    </>
+    </div>
   );
 }
