@@ -1,10 +1,9 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
-import { Heart, MinusCircle, PlusCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { MinusCircle, PlusCircle } from "lucide-react";
+import React, { useState } from "react";
 import HeartFavorite from "./Heart";
+import useCart from "@/lib/hooks/useCart";
 
 const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
   const [selectedColor, setSelectedColor] = useState<string>(
@@ -14,6 +13,8 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
     productInfo.sizes[0]
   );
   const [quantity, setQuantity] = useState<number>(1);
+
+  const cart = useCart();
 
   return (
     <div className="flex flex-col gap-4 max-w-[500px] min-h-screen">
@@ -87,7 +88,17 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
         </div>
       </div>
 
-      <button className="outline base-bold py-3 rounded-lg hover:bg-black hover:text-white cursor-pointer">
+      <button
+        onClick={() =>
+          cart.addItem({
+            item: productInfo,
+            quantity,
+            color: selectedColor,
+            size: selectedSize,
+          })
+        }
+        className="outline base-bold py-3 rounded-lg hover:bg-black hover:text-white cursor-pointer"
+      >
         Add To Cart
       </button>
     </div>

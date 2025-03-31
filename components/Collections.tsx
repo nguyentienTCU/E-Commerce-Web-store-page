@@ -1,4 +1,4 @@
-import { getCollections } from "@/lib/action";
+import { getCollections } from "@/lib/actions/action";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
