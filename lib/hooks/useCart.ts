@@ -12,7 +12,7 @@ interface CartItem {
 interface CartStore {
   cartItems: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (_id: string) => void;
+  removeItem: (_id: string, color?: string, size?: string) => void;
   increaseQuantity: (_id: string) => void;
   decreaseQuantity: (_id: string) => void;
   clearCart: () => void;
@@ -39,9 +39,12 @@ const useCart = create(
         set({ cartItems: [...currentItems, { item, quantity, color, size }] });
         toast.success("Item added to cart");
       },
-      removeItem: (_id: string) => {
+      removeItem: (_id: string, color?: string, size?: string) => {
         const newCartItems = get().cartItems.filter(
-          (cartItem) => cartItem.item._id !== _id
+          (cartItem) =>
+            cartItem.item._id !== _id ||
+            cartItem.color !== color ||
+            cartItem.size !== size
         );
         set({ cartItems: newCartItems });
         toast.success("Item removed from cart");

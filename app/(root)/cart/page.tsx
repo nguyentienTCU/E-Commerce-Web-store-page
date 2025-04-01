@@ -97,7 +97,13 @@ const Cart = () => {
 
                 <Trash
                   className="hover:text-red-600 cursor-pointer"
-                  onClick={() => cart.removeItem(cartItem.item._id)}
+                  onClick={() =>
+                    cart.removeItem(
+                      cartItem.item._id,
+                      cartItem.color,
+                      cartItem.size
+                    )
+                  }
                 />
               </div>
             ))}

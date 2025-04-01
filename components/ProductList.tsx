@@ -6,7 +6,7 @@ const ProductList = async () => {
   const products = await getProducts();
   return (
     <div className="flex flex-col items-center gap-10 py-8 px-5">
-      <p className="heading1-bold"></p>
+      <p className="heading1-bold">Product</p>
       {!products || products.length === 0 ? (
         <p className="body-bold">No products found</p>
       ) : (
