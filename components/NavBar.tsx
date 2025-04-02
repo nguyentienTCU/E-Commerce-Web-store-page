@@ -17,97 +17,147 @@ const NavBar = () => {
   const [query, setQuery] = useState("");
 
   return (
-    <div className="sticky top-0 z-10 py-2 px-10 flex gap-2 justify-between items-center bg-white max-sm:px-2">
-      <Link href="/">
-        <Image src="/logo.png" alt="logo" width={130} height={100} />
-      </Link>
+    <nav className="sticky top-0 z-50 w-full bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={130}
+              height={100}
+              className="hover:opacity-90 transition-opacity"
+            />
+          </Link>
 
-      <div className="flex gap-4 base-bold max-lg:hidden">
-        <Link href="/" className="hover:text-red-600">
-          Home
-        </Link>
-        <Link
-          href={!user ? "/sign-in" : "/wishlist"}
-          className="hover:text-red-600"
-        >
-          Wishlist
-        </Link>
-        <Link
-          href={!user ? "/sign-in" : "/orders"}
-          className="hover:text-red-600"
-        >
-          Orders
-        </Link>
-      </div>
-
-      <div className="flex gap-3 border border-grey-2 px-3 py-1 items-center rounded-lg">
-        <input
-          className="outline-none max-sm:max-w-[120px] "
-          placeholder="Search..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button
-          onClick={() => {
-            query === ""
-              ? toast.error("Please enter a search query")
-              : router.push(`/search/${query}`);
-          }}
-        >
-          <Search className="cursor-pointer h-4 w-4 hover:text-red-600" />
-        </button>
-      </div>
-
-      <div className="relative flex gap-3 items-center">
-        <Link
-          href="/cart"
-          className="flex items-center gap-3 border rounded-lg px-2 py-1 hover:bg-black hover:text-white max-md:hidden"
-        >
-          <ShoppingCart />
-          <p className="text-base-bold">Cart ({cart.cartItems.length})</p>
-        </Link>
-
-        <Menu
-          className="cursor-pointer lg:hidden"
-          onClick={() => setDropdownMenu(!dropdownMenu)}
-        />
-
-        {dropdownMenu && (
-          <div className="absolute top-12 right-5 flex flex-col gap-4 p-3 rounded-lg border bg-white text-base-bold lg:hidden">
-            <Link href="/" className="hover:text-red-600">
+          {/* Navigation Links */}
+          <div className="hidden md:flex gap-8">
+            <Link
+              href="/"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+            >
               Home
             </Link>
             <Link
               href={!user ? "/sign-in" : "/wishlist"}
-              className="hover:text-red-600"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
             >
               Wishlist
             </Link>
             <Link
               href={!user ? "/sign-in" : "/orders"}
-              className="hover:text-red-600"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
             >
               Orders
             </Link>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex-1 max-w-xl mx-8">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full px-4 py-2 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button
+                onClick={() => {
+                  query === ""
+                    ? toast.error("Please enter a search query")
+                    : router.push(`/search/${query}`);
+                }}
+                className="absolute left-3 top-2.5"
+              >
+                <Search className="h-5 w-5 text-gray-400 hover:text-blue-600 transition-colors" />
+              </button>
+            </div>
+          </div>
+
+          {/* User Actions */}
+          <div className="flex items-center gap-4">
             <Link
               href="/cart"
-              className="flex items-center gap-3 border rounded-lg px-2 py-1 hover:bg-black hover:text-white"
+              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-200 transition-colors"
             >
-              <ShoppingCart />
-              <p className="text-base-bold">Cart ({cart.cartItems.length})</p>
+              <ShoppingCart className="h-5 w-5" />
+              <span className="font-medium">
+                Cart ({cart.cartItems.length})
+              </span>
             </Link>
+
+            <Menu
+              className="cursor-pointer md:hidden"
+              onClick={() => setDropdownMenu(!dropdownMenu)}
+            />
+
+            {user ? (
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "w-10 h-10",
+                  },
+                }}
+              />
+            ) : (
+              <Link
+                href="/sign-in"
+                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              >
+                <CircleUserRound className="h-5 w-5" />
+                <span className="font-medium">Sign In</span>
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {dropdownMenu && (
+          <div className="md:hidden absolute top-16 left-0 right-0 bg-white border-t border-gray-200 p-4">
+            <div className="flex flex-col gap-4">
+              <Link
+                href="/"
+                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              >
+                Home
+              </Link>
+              <Link
+                href={!user ? "/sign-in" : "/wishlist"}
+                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              >
+                Wishlist
+              </Link>
+              <Link
+                href={!user ? "/sign-in" : "/orders"}
+                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              >
+                Orders
+              </Link>
+              <Link
+                href="/cart"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-blue-200 transition-colors"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                <span className="font-medium">
+                  Cart ({cart.cartItems.length})
+                </span>
+              </Link>
+              {!user && (
+                <Link
+                  href="/sign-in"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                >
+                  <CircleUserRound className="h-5 w-5" />
+                  <span className="font-medium">Sign In</span>
+                </Link>
+              )}
+            </div>
           </div>
         )}
-
-        {user ? (
-          <UserButton />
-        ) : (
-          <Link href="/sign-in">
-            <CircleUserRound />
-          </Link>
-        )}
       </div>
-    </div>
+    </nav>
   );
 };
 

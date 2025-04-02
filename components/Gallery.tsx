@@ -1,33 +1,79 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const Gallery = ({ productMedia }: { productMedia: string[] }) => {
-  const [mainImage, setMainImage] = useState(productMedia[0]);
+interface GalleryProps {
+  productMedia: string[];
+}
+
+const Gallery = ({ productMedia }: GalleryProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handlePrevious = () => {
+    setCurrentIndex((prev) =>
+      prev === 0 ? productMedia.length - 1 : prev - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) =>
+      prev === productMedia.length - 1 ? 0 : prev + 1
+    );
+  };
+
   return (
-    <div className="flex flex-col gap-3 max-w-[700px] min-h-screen">
-      <Image
-        src={mainImage}
-        alt="product"
-        width={500}
-        height={500}
-        className="w-96 h-96 rounded-lg shadow-xl object-cover"
-      />
-      <div className="flex gap-2 overflow-auto tailwind-scrollbar-hide">
-        {productMedia.map((image, index) => (
-          <Image
-            key={index}
-            src={image}
-            alt="product"
-            width={200}
-            height={200}
-            className={`w-20 h-20 rounded-lg object-cover cursor-pointer ${
-              mainImage === image ? "border-2 border-black" : ""
-            }`}
-            onClick={() => setMainImage(image)}
-          />
-        ))}
+    <div className="relative">
+      {/* Main Image */}
+      <div className="relative aspect-square rounded-lg overflow-hidden">
+        <Image
+          src={productMedia[currentIndex]}
+          alt={`Product image ${currentIndex + 1}`}
+          fill
+          className="object-cover"
+          priority
+        />
+        {productMedia.length > 1 && (
+          <>
+            <button
+              onClick={handlePrevious}
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 hover:bg-white shadow-md transition-colors"
+            >
+              <ChevronLeft className="h-6 w-6 text-gray-800" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 hover:bg-white shadow-md transition-colors"
+            >
+              <ChevronRight className="h-6 w-6 text-gray-800" />
+            </button>
+          </>
+        )}
       </div>
+
+      {/* Thumbnail Gallery */}
+      {productMedia.length > 1 && (
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
+          {productMedia.map((media, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-all ${
+                currentIndex === index
+                  ? "border-blue-600"
+                  : "border-transparent hover:border-gray-300"
+              }`}
+            >
+              <Image
+                src={media}
+                alt={`Thumbnail ${index + 1}`}
+                fill
+                className="object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
