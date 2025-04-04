@@ -4,11 +4,12 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import { CircleUserRound, Menu, Search, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const NavBar = () => {
+  const pathname = usePathname();
   const { user } = useUser();
   const cart = useCart();
   const router = useRouter();
@@ -16,12 +17,14 @@ const NavBar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
   const [query, setQuery] = useState("");
 
+  console.log(pathname);
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center mr-8">
             <Image
               src="/logo.png"
               alt="logo"
@@ -32,22 +35,28 @@ const NavBar = () => {
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex gap-8">
+          <div className="hidden md:flex gap-8 flex-1">
             <Link
               href="/"
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              className={`text-gray-700 hover:text-blue-600 transition-colors font-medium ${
+                pathname === "/" ? "!text-blue-600" : ""
+              }`}
             >
               Home
             </Link>
             <Link
               href={!user ? "/sign-in" : "/wishlist"}
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              className={`text-gray-700 hover:text-blue-600 transition-colors font-medium ${
+                pathname.startsWith("/wishlist") ? "!text-blue-600" : ""
+              }`}
             >
               Wishlist
             </Link>
             <Link
               href={!user ? "/sign-in" : "/orders"}
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              className={`text-gray-700 hover:text-blue-600 transition-colors font-medium ${
+                pathname.startsWith("/orders") ? "!text-blue-600" : ""
+              }`}
             >
               Orders
             </Link>
@@ -119,19 +128,25 @@ const NavBar = () => {
             <div className="flex flex-col gap-4">
               <Link
                 href="/"
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className={`text-gray-700 hover:text-blue-600 transition-colors font-medium ${
+                  pathname === "/" ? "!text-blue-600" : ""
+                }`}
               >
                 Home
               </Link>
               <Link
                 href={!user ? "/sign-in" : "/wishlist"}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className={`text-gray-700 hover:text-blue-600 transition-colors font-medium ${
+                  pathname.startsWith("/wishlist") ? "!text-blue-600" : ""
+                }`}
               >
                 Wishlist
               </Link>
               <Link
                 href={!user ? "/sign-in" : "/orders"}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+                className={`text-gray-700 hover:text-blue-600 transition-colors font-medium ${
+                  pathname.startsWith("/orders") ? "!text-blue-600" : ""
+                }`}
               >
                 Orders
               </Link>
