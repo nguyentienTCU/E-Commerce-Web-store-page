@@ -13,8 +13,8 @@ interface CartStore {
   cartItems: CartItem[];
   addItem: (item: CartItem) => void;
   removeItem: (_id: string, color?: string, size?: string) => void;
-  increaseQuantity: (_id: string) => void;
-  decreaseQuantity: (_id: string) => void;
+  increaseQuantity: (_id: string, color?: string, size?: string) => void;
+  decreaseQuantity: (_id: string, color?: string, size?: string) => void;
   clearCart: () => void;
 }
 
@@ -49,9 +49,13 @@ const useCart = create(
         set({ cartItems: newCartItems });
         toast.success("Item removed from cart");
       },
-      increaseQuantity: (_id: string) => {
+      increaseQuantity: (_id: string, color?: string, size?: string) => {
         const newCartItems = get().cartItems.map((cartItem) => {
-          if (cartItem.item._id === _id) {
+          if (
+            cartItem.item._id === _id &&
+            cartItem.color === color &&
+            cartItem.size === size
+          ) {
             return { ...cartItem, quantity: cartItem.quantity + 1 };
           }
           return cartItem;
@@ -59,12 +63,22 @@ const useCart = create(
         set({ cartItems: newCartItems });
         toast.success("Quantity increased");
       },
-      decreaseQuantity: (_id: string) => {
-        const newCartItems = get().cartItems.map((cartItem) => {
-          if (cartItem.item._id === _id) {
-            return { ...cartItem, quantity: cartItem.quantity - 1 };
+      decreaseQuantity: (_id: string, color?: string, size?: string) => {
+        const currentItems = get().cartItems;
+        const newCartItems = currentItems.filter((cartItem) => {
+          if (
+            cartItem.item._id === _id &&
+            cartItem.color === color &&
+            cartItem.size === size
+          ) {
+            // If quantity is 1, remove the item
+            if (cartItem.quantity <= 1) {
+              return false;
+            }
+            // Otherwise, keep the item with decreased quantity
+            cartItem.quantity -= 1;
           }
-          return cartItem;
+          return true;
         });
         set({ cartItems: newCartItems });
         toast.success("Quantity decreased");

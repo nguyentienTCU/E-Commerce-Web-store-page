@@ -55,12 +55,14 @@ const Cart = () => {
 
   const handleQuantityChange = (
     itemId: string,
-    action: "increase" | "decrease"
+    action: "increase" | "decrease",
+    color?: string,
+    size?: string
   ) => {
     if (action === "increase") {
-      cart.increaseQuantity(itemId);
+      cart.increaseQuantity(itemId, color, size);
     } else {
-      cart.decreaseQuantity(itemId);
+      cart.decreaseQuantity(itemId, color, size);
     }
   };
 
@@ -138,7 +140,12 @@ const Cart = () => {
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={() =>
-                            handleQuantityChange(cartItem.item._id, "decrease")
+                            handleQuantityChange(
+                              cartItem.item._id,
+                              "decrease",
+                              cartItem.color,
+                              cartItem.size
+                            )
                           }
                           className="p-1 hover:bg-gray-100 rounded-full transition-colors"
                         >
@@ -149,7 +156,12 @@ const Cart = () => {
                         </span>
                         <button
                           onClick={() =>
-                            handleQuantityChange(cartItem.item._id, "increase")
+                            handleQuantityChange(
+                              cartItem.item._id,
+                              "increase",
+                              cartItem.color,
+                              cartItem.size
+                            )
                           }
                           className="p-1 hover:bg-gray-100 rounded-full transition-colors"
                         >
